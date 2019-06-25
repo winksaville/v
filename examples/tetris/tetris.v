@@ -322,6 +322,8 @@ fn key_down(wnd voidptr, key int, code int, action, mods int) {
 	// Fetch the game object stored in the user pointer
 	mut game := &Game(glfw.get_window_user_pointer(wnd))
 	switch key {
+	case glfw.KEY_ESCAPE:
+		println('glfw.KEY_ESCAPE: key = $key')
 	case glfw.KeyUp:
 		// Rotate the tetro
 		game.rotation_idx++
