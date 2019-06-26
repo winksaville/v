@@ -1,7 +1,7 @@
 all: v
 
 v: v.c
-	cc -std=gnu11 -w -o v v.c
+	cc -w -o v v.c
 	./v -o v .
 
 v.c:
@@ -11,4 +11,4 @@ test:
 	find .. -name '*_test.v' | xargs v {}
 
 clean:
-	-rm vc v.c
+	-rm -f v vc v.c

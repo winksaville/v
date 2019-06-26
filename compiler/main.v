@@ -88,21 +88,26 @@ mut:
 }
 
 fn main() {
+        println('main:+')
 	// There's no `flags` module yet, so args have to be parsed manually
 	args := os.args
+        println('main: 1')
 	// Print the version and exit.
 	if 'version' in args {
-		println('V $Version')
+		println('Wink: V $Version')
 		return
 	}
+        println('main: 1.1')
 	if '-h' in args || '--help' in args || 'help' in args {
 		println(HelpText)
 		return
 	}
+        println('main: 1.2')
 	if 'translate' in args {
 		println('Translating C to V will be available in V 0.3') 
 		return 
 	} 
+        println('main: 2')
 	// TODO quit if the compiler is too old 
 	// u := os.file_last_mod_unix('/var/tmp/alex')
 	// Create a temp directory if it's not there. 
@@ -117,6 +122,7 @@ fn main() {
 	}
 */ 
 	// Just fmt and exit
+        println('main: 3')
 	if args.contains('fmt') {
 		file := args.last()
 		if !os.file_exists(file) {
@@ -131,12 +137,15 @@ fn main() {
 		return
 	}
 	// V with no args? REPL
+        println('main: 4')
 	if args.len < 2 {
 		run_repl()
 		return
 	}
 	// Construct the V object from command line arguments
+        println('main: call new_v')
 	mut c := new_v(args)
+        println('main: ret  new_v')
 	if c.is_verbose {
 		println(args)
 	}
@@ -686,6 +695,7 @@ fn (c &V) log(s string) {
 }
 
 fn new_v(args[]string) *V {
+        println('new_v:+')
 	mut dir := args.last()
 	// println('new compiler "$dir"')
 	if args.len < 2 {
@@ -763,14 +773,18 @@ fn new_v(args[]string) *V {
 	mut lang_dir = ''
 	// First try fetching it from VROOT if it's defined
 	vroot_path := TmpPath + '/VROOT'
+        println('vroot_path= $vroot_path')
 	if os.file_exists(vroot_path) {
 		vroot := os.read_file(vroot_path).trim_space()
+                println('vroot= $vroot')
 		if os.dir_exists(vroot) && os.dir_exists(vroot + '/builtin') {
 			lang_dir = vroot
+                        println('vroot exits and vroot/builtin exists land_dir=$lang_dir')
 		}
 	}
 	// no "~/.vlang/VROOT" file, so the user must be running V for the first 
 	// time.
+        println('lang_dir= $lang_dir')
 	if lang_dir == ''  {
 		println('Looks like you are running V for the first time.')
 		// The parent directory should contain vlib if V is run
@@ -807,6 +821,7 @@ fn new_v(args[]string) *V {
 		}
 	}
 	obfuscate := args.contains('-obf')
+        println('new_v:-')
 	return &V {
 		os: _os
 		out_name: out_name
